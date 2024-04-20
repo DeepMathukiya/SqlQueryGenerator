@@ -1,18 +1,41 @@
 import google.generativeai as genai
 from flask import Flask, render_template, request
-import numpy as np
+import mysql.connector
+
+def connect_to_database():
+    return mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="",
+        database="Query_Generator"
+    )
+
+conn = connect_to_database()
+c = conn.cursor() 
+def create_tables():
+    c.execute('''CREATE TABLE IF NOT EXISTS Responses (
+                    response_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                    promt varchar(255),
+                    response varchar(255),
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ); ''')
+    conn.commit()
+
 
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return render_template('index.html')
+    c.execute('''SELECT * FROM Responses''')
+    data = c.fetchall()
+    return render_template('index.html',data={data})
 
 @app.route('/predict' , methods=['GET','POST'])
 def SQL_Generator():
      if request.method == 'POST':
         question = request.form['question']
         response = get_sql(question)
+        c.execute('''INSERT INTO Responses (promt, response) VALUES (%s,%s)''', (question, response) )
+        conn.commit()
         return render_template('index.html', question=question, response=response)
 
 
@@ -62,4 +85,5 @@ def get_sql(question):
 
 
 if __name__ == '__main__':
+    create_tables()
     app.run(host='0.0.0.0',port='7000') 
