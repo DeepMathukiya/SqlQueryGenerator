@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./bootstrap.css">
+</head>
+
+<body>
+    <form method="POST" action="/predict" class="text-center my-6" id="container">
+        <h1>SQL Query generative</h1>
+        <div id="generator">
+            <textarea id="input"
+                placeholder="Enter prompt" name="question"></textarea>
+            <button type="submit" class="my-5" id="generate">Generate SQL</button>
+        </div>
+        <div id="results"></div>
+    </form>
+    <h5>
+        {{response}}
+    </h5>
+</body>
+<script src="./script.js"></script>
+
+</html>
