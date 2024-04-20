@@ -15,8 +15,8 @@ c = conn.cursor()
 def create_tables():
     c.execute('''CREATE TABLE IF NOT EXISTS Responses (
                     response_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                    promt varchar(255),
-                    response varchar(255),
+                    promt text,
+                    response text,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ); ''')
     conn.commit()
 
@@ -36,7 +36,17 @@ def hello_world():
 def SQL_Generator():
      if request.method == 'POST':
         question = request.form['question']
-        response = get_sql(question)
+        checkbox_value = request.form.get('myCheckbox')
+        if checkbox_value == 'on':
+            c.execute('''SELECT response FROM Responses order by created_at desc limit 1;''')
+            data2 = c.fetchall()
+            question2 = [(question + ' Please change in below query' + str(row)) for row in data2]
+            question2= str(question2)
+        else :
+            question2 = question
+
+        response = get_sql(question2)
+           
         c.execute('''INSERT INTO Responses (promt, response) VALUES (%s,%s)''', (question, response) )
         conn.commit()
         c.execute('''SELECT * FROM Responses order by created_at desc;''')
