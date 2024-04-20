@@ -27,7 +27,9 @@ app = Flask(__name__)
 def hello_world():
     c.execute('''SELECT * FROM Responses''')
     data = c.fetchall()
-    return render_template('index.html',data={data})
+    return render_template('index.html',data=data)
+
+
 
 @app.route('/predict' , methods=['GET','POST'])
 def SQL_Generator():
