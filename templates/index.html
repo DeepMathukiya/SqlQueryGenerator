@@ -4,9 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sql Query Generator    </title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap.css') }}">
+    <script src="https://kit.fontawesome.com/a2ee07722e.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -26,20 +27,35 @@
             <form method="POST" action="/predict" class="text-center my-6" id="container">
                 <h1>SQL Query generator</h1>
                 <div id="generator">
+
                     <textarea id="input" placeholder="Enter prompt" name="question"></textarea>
                     <div class="mt-5">
                         <label for="check">Add previous querry</label>
-                        <input type="checkbox" name="myCheckbox" id="check">
+                        <input type="checkbox" name="" id="check">
                     </div>
                     <button type="submit" id="generate">Generate</button>
                 </div>
                 {% if response %}
-                <div id="results" class="box">{{response}}</div>
+                <div style="position: relative;">
+                    <div id="results" class="box">{{response[7:-4]}}
+                    </div>
+                    <i onclick="copyContent()" class="fa-regular fa-copy icon"></i>
+                </div>
                 {% endif %}
             </form>
         </div>
     </div>
 </body>
-<script src="./script.js"></script>
+<script>
+    const copyContent = async () => {
+        let text = document.getElementById('results').innerHTML;
+        try {
+            await navigator.clipboard.writeText(text);
+            alert("Copied the text: " + text);
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+        }
+    }
+</script>
 
 </html>

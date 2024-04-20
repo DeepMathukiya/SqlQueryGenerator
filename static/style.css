@@ -8,6 +8,7 @@ body {
   background-repeat: no-repeat;
   height: 100vh;
   color: white !important;
+  height: 100vh;
 }
 
 #container {
@@ -97,4 +98,10 @@ body::-webkit-scrollbar {
   font-size: small;
   text-align: end;
   color: gray;
+}
+.icon {
+  position: absolute;
+  cursor: pointer;
+  right: 25px;
+  top: 20px;
 }
