@@ -20,12 +20,13 @@ def create_tables():
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ); ''')
     conn.commit()
 
+create_tables()
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static') 
 
 @app.route('/')
 def hello_world():
-    c.execute('''SELECT * FROM Responses''')
+    c.execute('''SELECT * FROM Responses order by created_at desc;''')
     data = c.fetchall()
     return render_template('index.html',data=data)
 
@@ -38,7 +39,11 @@ def SQL_Generator():
         response = get_sql(question)
         c.execute('''INSERT INTO Responses (promt, response) VALUES (%s,%s)''', (question, response) )
         conn.commit()
-        return render_template('index.html', question=question, response=response)
+        c.execute('''SELECT * FROM Responses order by created_at desc;''')
+        data = c.fetchall()
+        return render_template('index.html', question=question, response=response,data=data)
+     else:
+         return hello_world()
 
 
 
@@ -86,6 +91,5 @@ def get_sql(question):
 
 
 
-if __name__ == '__main__':
-    create_tables()
-    app.run(host='0.0.0.0',port='7000') 
+if __name__ == '_main_':
+    app.run(host='0.0.0.0',port='1000')

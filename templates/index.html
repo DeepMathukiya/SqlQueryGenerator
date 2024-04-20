@@ -5,24 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap.css') }}">
 </head>
 
 <body>
-    {{data}}
-    <form method="POST" action="/predict" class="text-center my-6" id="container">
-        <h1>SQL Query generative</h1>
-        <div id="generator">
-            <textarea id="input"
-                placeholder="Enter prompt" name="question"></textarea>
-            <button type="submit" class="my-5" id="generate">Generate SQL</button>
+    <div class="row">
+        <div class="col-4">
+            <div class="container colmun box" style="height: 100vh;">
+                {% for item in data %}
+                <div class="container my-5">
+                    <div class="table_box mt-2 box2 querry">{{ item[1] }}</div>
+                    <p class="date">{{ item[3] }}</p>
+                    <div class="table_box mb-2 box2">{{ item[2] }}</div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
-        <div id="results"></div>
-    </form>
-    <h5>
-        {{response}}
-    </h5>
+        <div class="col-8">
+            <form method="POST" action="/predict" class="text-center my-6" id="container">
+                <h1>SQL Query generator</h1>
+                <div id="generator">
+                    <textarea id="input" placeholder="Enter prompt" name="question"></textarea>
+                    <div class="mt-5">
+                        <label for="check">Add previous querry</label>
+                        <input type="checkbox" name="" id="check">
+                    </div>
+                    <button type="submit" id="generate">Generate</button>
+                </div>
+                {% if response %}
+                <div id="results" class="box">{{response}}</div>
+                {% endif %}
+            </form>
+        </div>
+    </div>
 </body>
 <script src="./script.js"></script>
 
