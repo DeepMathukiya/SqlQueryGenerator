@@ -6,9 +6,8 @@ body {
     transparent 100%
   );
   background-repeat: no-repeat;
-  height: 100vh;
   color: white !important;
-  height: 100vh;
+  height: 100%;
 }
 
 #container {
@@ -89,6 +88,7 @@ body::-webkit-scrollbar {
   color: white;
   text-align: start;
   padding: 10px;
+  height: 100%;
 }
 .querry {
   margin-left: auto;

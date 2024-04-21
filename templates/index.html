@@ -19,6 +19,9 @@
                     <div class="table_box mt-2 box2 querry">{{ item[1] }}</div>
                     <p class="date">{{ item[3] }}</p>
                     <div class="table_box mb-2 box2">{{ item[2] }}</div>
+                    <a href="{{ url_for('delete', id=item[0]) }}">
+                        <i class="fa fa-trash"></i>
+                    </a>
                 </div>
                 {% endfor %}
             </div>

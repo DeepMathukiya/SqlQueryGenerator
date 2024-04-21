@@ -1,5 +1,5 @@
 import google.generativeai as genai
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request,url_for,redirect
 import mysql.connector
 
 def connect_to_database():
@@ -56,8 +56,12 @@ def SQL_Generator():
          return hello_world()
 
 
-
-
+@app.route('/delete')
+def delete():
+    id = request.args.get('id') 
+    c.execute('''DELETE FROM Responses WHERE response_id = %s;''', (id,))
+    conn.commit()
+    return redirect(url_for('hello_world'))
 
 
 def get_sql(question):
