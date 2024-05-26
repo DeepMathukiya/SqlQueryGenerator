@@ -4,10 +4,10 @@ import mysql.connector
 
 def connect_to_database():
     return mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="",
-        database="Query_Generator"
+        host="sql12.freesqldatabase.com",
+        user="sql12709319",
+        password="feMTGg7Vp4",
+        database="sql12709319"
     )
 
 conn = connect_to_database()
@@ -40,7 +40,7 @@ def SQL_Generator():
         if checkbox_value == 'on':
             c.execute('''SELECT response FROM Responses order by created_at desc limit 1;''')
             data2 = c.fetchall()
-            question2 = [(question + ' Please change in below query' + str(row)) for row in data2]
+            question2 = [(question + 'Refrence below query if it has any error or missing information for to update then point it out' + str(row)) for row in data2]
             question2= str(question2)
         else :
             question2 = question
@@ -97,8 +97,7 @@ def get_sql(question):
                                 safety_settings = safety_settings)
 
     prompt_parts_1 = [
-    "You are an expert in converting English questions to SQL code!",
-    ]
+        "You are an expert in converting English questions to SQL code if given query has major error then please tell this error! ",]
     prompt_parts = [prompt_parts_1[0], question]
     response = model.generate_content(prompt_parts)
     return response.text
