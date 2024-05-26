@@ -1,3 +1,4 @@
 Gunicorn
 flask
+google.generativeai
 mysql.connector
