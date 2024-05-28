@@ -1,14 +1,20 @@
 import google.generativeai as genai
 from flask import Flask, render_template, request,url_for,redirect
 import mysql.connector
+from dotenv import load_dotenv
+import os
+
+def configure():
+    load_dotenv()
+    
 
 def connect_to_database():
     return mysql.connector.connect(
-         host="sql12.freesqldatabase.com",
-        user="sql12709319",
-        password="feMTGg7Vp4",
-        database="sql12709319"
-    )
+        host=os.getenv('host'),
+        user=os.getenv('user'),
+        password=os.getenv('password'),
+        database=os.getenv('database')
+        )
 
 conn = connect_to_database()
 c = conn.cursor() 
@@ -65,7 +71,7 @@ def delete():
 
 
 def get_sql(question):
-    genai.configure(api_key = "AIzaSyA7s9CKv8mZFnmb8h216cA_th-zXiC-vhM")
+    genai.configure(api_key=os.getenv('api_key'))
     # Set up the model
     generation_config = {
     "temperature": 0.4,
@@ -105,4 +111,5 @@ def get_sql(question):
 
 
 if __name__ == '_main_':
+    configure()
     app.run(host='0.0.0.0',port='1000')
