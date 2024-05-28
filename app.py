@@ -4,7 +4,7 @@ import mysql.connector
 
 def connect_to_database():
     return mysql.connector.connect(
-        host="sql12.freesqldatabase.com",
+         host="sql12.freesqldatabase.com",
         user="sql12709319",
         password="feMTGg7Vp4",
         database="sql12709319"

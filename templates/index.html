@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sql Query Generator    </title>
+    <link rel="icon" type="image/icon" href="{{ url_for('static',filename='mysql.png') }}">
+
+
+    <title>Sql Query Generator</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='bootstrap.css') }}">
     <script src="https://kit.fontawesome.com/a2ee07722e.js" crossorigin="anonymous"></script>
@@ -21,7 +24,7 @@
                     <div class="table_box mb-2 box2">{{ item[2] }}</div>
                     <a href="{{ url_for('delete', id=item[0]) }}">
                         <i class="fa fa-trash"></i>
-                    </a>
+                    </a>    
                 </div>
                 {% endfor %}
             </div>
