@@ -1,42 +1,41 @@
 import google.generativeai as genai
 from flask import Flask, render_template, request,url_for,redirect
 import pymysql
+from dotenv import load_dotenv
+import os
 
-
-
+def configure():
+    load_dotenv()
     
 
 # def connect_to_database():
 #     return mysql.connector.connect(
-#         host="useful-gremlin-4724.g95.gcp-us-west2.cockroachlabs.cloud",
-#         user="deep",
-#         password="vWWgv5TaN9Zvb3gl8K9GVw",
-#         database="sqlgen"
-#         )
-
+#         host=os.getenv('host'),
+#         user=os.getenv('user'),
+#         password=os.getenv('password'),
+#         database=os.getenv('database')
+#         )\
 # conn = connect_to_database()
 
-# conn = mysql.connector.connect('mysql://avnadmin:AVNS_YNGT19fL9DcVoDX5vIy@mysql-39370665-patelds2004-sqlgen.j.aivencloud.com:24319/sqlgen?ssl-mode=REQUIRED')
 timeout = 10
 conn = pymysql.connect(
   charset="utf8mb4",
   connect_timeout=timeout,
   cursorclass=pymysql.cursors.DictCursor,
-  db="sqlgen",
-  host="mysql-39370665-patelds2004-sqlgen.j.aivencloud.com",
-  password="AVNS_YNGT19fL9DcVoDX5vIy",
+  db=os.getenv('db'),
+  host=os.getenv('host'),
+  password=os.getenv('password'),
   read_timeout=timeout,
-  port=24319,
-  user="avnadmin",
+  port=int(os.getenv('port')),
+  user=os.getenv('user'),
   write_timeout=timeout,
 )
- 
-    
+
 
 c = conn.cursor() 
 def create_tables():
-    c.execute('''CREATE TABLE IF NOT EXISTS Responses(
-                    response_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    c.execute('''CREATE TABLE IF NOT EXISTS Responses (
+                    response_id INTEGER PRIMARY KEY AUTO_INCREMENT,
                     promt text,
                     response text,
                     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ); ''')
@@ -68,6 +67,7 @@ def SQL_Generator():
             question2 = question
 
         response = get_sql(question2)
+           
         c.execute('''INSERT INTO Responses (promt, response) VALUES (%s,%s)''', (question, response) )
         conn.commit()
         c.execute('''SELECT * FROM Responses order by created_at desc;''')
@@ -86,7 +86,7 @@ def delete():
 
 
 def get_sql(question):
-    genai.configure(api_key="AIzaSyAZt3Bk7drSh04IehXmsbc7r9E0oidD5CU")
+    genai.configure(api_key=os.getenv('api_key'))
     # Set up the model
     generation_config = {
     "temperature": 0.4,
@@ -126,5 +126,5 @@ def get_sql(question):
 
 
 if __name__ == '_main_':
-    # configure()
+    configure()
     app.run(host='0.0.0.0',port='1000')
