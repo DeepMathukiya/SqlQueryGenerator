@@ -1,5 +1,5 @@
 Gunicorn
 flask
 google.generativeai
-mysql.connector
-dotenv
+pymysql
+cryptography

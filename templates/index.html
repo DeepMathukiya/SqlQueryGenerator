@@ -19,10 +19,10 @@
             <div class="container colmun box" style="height: 100vh;">
                 {% for item in data %}
                 <div class="container my-5">
-                    <div class="table_box mt-2 box2 querry">{{ item[1] }}</div>
+                    <div class="table_box mt-2 box2 querry">{{ item['promt'] }}</div>
                     <p class="date">{{ item[3] }}</p>
-                    <div class="table_box mb-2 box2">{{ item[2] }}</div>
-                    <a href="{{ url_for('delete', id=item[0]) }}">
+                    <div class="table_box mb-2 box2">{{ item['response'] }}</div>
+                    <a href="{{ url_for('delete', id=item['response_id']) }}">
                         <i class="fa fa-trash" style="color: #AFAFAF;"></i>
                     </a>    
                 </div>
